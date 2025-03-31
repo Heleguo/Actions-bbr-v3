@@ -7,8 +7,6 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
-  cleanup:
-    runs-on: ubuntu-latest
   build:
     needs: cleanup
     runs-on: ubuntu-latest
