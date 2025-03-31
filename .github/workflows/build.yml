@@ -10,12 +10,6 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: 删除旧的工作流运行记录
-        uses: Mattraks/delete-workflow-runs@main
-        with:
-          retain_days: 0 # 保留 0 天的记录
-          keep_minimum_runs: 0 # 至少保留 2 次工作流运行记录
-
   build:
     needs: cleanup
     runs-on: ubuntu-latest
@@ -35,10 +29,8 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: 修改软件源并更新依赖项
+      - name: 更新依赖项
         run: |
-          # 修改软件源为阿里云镜像
-          sudo sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirrors.aliyun.com/ubuntu/|g' /etc/apt/sources.list
           sudo apt-get update
           # 安装所需的依赖项
           sudo apt-get install -y \
@@ -93,9 +85,9 @@ jobs:
         working-directory: ./kernel/linux/
         run: |
           if [ "${{ matrix.arch }}" == "arm64" ]; then
-            make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg -j$(nproc) LOCALVERSION=-joeyblog-bbrv3
+            make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg -j$(nproc)
           else
-            make bindeb-pkg -j$(nproc) LOCALVERSION=-joeyblog-bbrv3
+            make bindeb-pkg -j$(nproc)
           fi
 
       - name: 上传配置文件
