@@ -9,7 +9,6 @@ env:
 jobs:
   cleanup:
     runs-on: ubuntu-latest
-    steps:
   build:
     needs: cleanup
     runs-on: ubuntu-latest
